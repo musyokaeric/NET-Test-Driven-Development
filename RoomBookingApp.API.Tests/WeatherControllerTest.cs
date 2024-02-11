@@ -3,7 +3,7 @@ using RoomBookingApp.API.Controllers;
 
 namespace RoomBookingApp.API.Tests
 {
-    public class UnitTest1
+    public class WeatherControllerTest
     {
         [Fact]
         public void Should_Return_Forecast_Results()

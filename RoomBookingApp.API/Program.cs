@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using RoomBookingApp.Core.Processors;
 using RoomBookingApp.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,9 @@ var connectionString = "DataSource=:memory:";
 var conn = new SqliteConnection(connectionString);
 conn.Open();
 builder.Services.AddDbContext<RoomBookingAppDbContext>(options=>options.UseSqlite(conn));
+
+// Inject Rerefenced Interface 
+builder.Services.AddScoped<IRoomBookingRequestProcessor, RoomBookingRequestProcessor>();
 
 var app = builder.Build();
 
