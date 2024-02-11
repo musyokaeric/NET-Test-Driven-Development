@@ -1,4 +1,5 @@
-﻿using Shouldly;
+﻿using RoomBookingApp.Core.Models;
+using RoomBookingApp.Core.Processors;
 
 namespace RoomBookingApp.Core
 {
@@ -17,7 +18,7 @@ namespace RoomBookingApp.Core
             var processor = new RoomBookingRequestProcessor();
 
             // Act
-            RoomBookingResult result =  processor.BookRoom(request);
+            RoomBookingResult result = processor.BookRoom(request);
 
             // Assert (xunit default)
             Assert.NotNull(result);
