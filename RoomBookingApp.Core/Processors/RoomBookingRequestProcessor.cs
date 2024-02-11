@@ -18,7 +18,10 @@ namespace RoomBookingApp.Core.Processors
         {
             if (bookingRequest == null) throw new ArgumentNullException(nameof(bookingRequest));
 
-            roomBookingService.Save(CreateRoomBookingObject<RoomBooking>(bookingRequest));
+            var availableRooms = roomBookingService.GetAvailableRooms(bookingRequest.Date);
+
+            if(availableRooms.Any())
+                roomBookingService.Save(CreateRoomBookingObject<RoomBooking>(bookingRequest));
 
             return CreateRoomBookingObject<RoomBookingResult>(bookingRequest);
         }
