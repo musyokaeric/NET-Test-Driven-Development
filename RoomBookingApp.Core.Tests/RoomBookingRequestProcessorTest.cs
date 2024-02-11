@@ -21,7 +21,7 @@ namespace RoomBookingApp.Core
                 Date = new DateTime(2021, 10, 20)
             };
 
-            availableRooms = new List<Room> { new Room() };
+            availableRooms = new List<Room> { new Room() { Id = 1 } };
 
             roomBookingServiceMock = new Mock<IRoomBookingService>();
             roomBookingServiceMock.Setup(r => r.GetAvailableRooms(request.Date))
@@ -81,6 +81,7 @@ namespace RoomBookingApp.Core
             savedBooking.FullName.ShouldBe(request.FullName);
             savedBooking.Email.ShouldBe(request.Email);
             savedBooking.Date.ShouldBe(request.Date);
+            savedBooking.RoomId.ShouldBe(availableRooms.First().Id);
         }
 
         [Fact]
