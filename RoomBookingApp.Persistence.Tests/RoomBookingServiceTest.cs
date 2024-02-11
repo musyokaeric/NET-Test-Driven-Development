@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Bson;
 using RoomBookingApp.Domain;
 using RoomBookingApp.Persistence.Repositories;
 
@@ -10,7 +11,7 @@ namespace RoomBookingApp.Persistence.Tests
 
         public RoomBookingServiceTest()
         {
-            dbOptions = new DbContextOptionsBuilder<RoomBookingAppDbContext>().UseInMemoryDatabase("AvailableRoomTest").Options;
+            
         }
 
         [Fact]
@@ -18,6 +19,8 @@ namespace RoomBookingApp.Persistence.Tests
         {
             // Arrange
             var date = new DateTime(2021, 06, 09);
+
+            dbOptions = new DbContextOptionsBuilder<RoomBookingAppDbContext>().UseInMemoryDatabase("AvailableRoomTest").Options;
 
             using var context = new RoomBookingAppDbContext(dbOptions);
 
@@ -40,6 +43,27 @@ namespace RoomBookingApp.Persistence.Tests
             Assert.Contains(availableRooms, r => r.Id == 2);
             Assert.Contains(availableRooms, r => r.Id == 3);
             Assert.DoesNotContain(availableRooms, r => r.Id == 1);
+        }
+
+        [Fact]
+        public void Should_Save_Room_Booking()
+        {
+            dbOptions = new DbContextOptionsBuilder<RoomBookingAppDbContext>().UseInMemoryDatabase("ShouldSaveTest").Options;
+
+            var roomBooking = new RoomBooking { RoomId = 1, Date = new DateTime(2021, 06, 09) };
+
+            using var context = new RoomBookingAppDbContext(dbOptions);
+
+            var roomBookingService = new RoomBookingService(context);
+
+            roomBookingService.Save(roomBooking);
+
+            var bookings = context.RoomBookings.ToList();
+            var booking = Assert.Single(bookings);
+
+            Assert.Equal(roomBooking.Date, booking.Date);
+            Assert.Equal(roomBooking.RoomId, booking.RoomId);
+            Assert.IsType<RoomBooking>(booking);
         }
     }
 }

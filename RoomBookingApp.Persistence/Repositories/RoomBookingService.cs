@@ -1,6 +1,5 @@
 ﻿using RoomBookingApp.Core.DataServices;
 using RoomBookingApp.Domain;
-using System.Linq;
 
 namespace RoomBookingApp.Persistence.Repositories
 {
@@ -20,7 +19,8 @@ namespace RoomBookingApp.Persistence.Repositories
 
         public void Save(RoomBooking roomBooking)
         {
-            throw new NotImplementedException();
+            context.RoomBookings.Add(roomBooking);
+            context.SaveChanges();
         }
     }
 }
