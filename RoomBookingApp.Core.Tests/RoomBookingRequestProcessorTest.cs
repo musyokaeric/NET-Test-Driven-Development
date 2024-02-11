@@ -2,6 +2,7 @@
 using RoomBookingApp.Core.Domain;
 using RoomBookingApp.Core.Models;
 using RoomBookingApp.Core.Processors;
+using RoomBookingApp.Core.Enums;
 
 namespace RoomBookingApp.Core
 {
@@ -92,6 +93,22 @@ namespace RoomBookingApp.Core
             processor.BookRoom(request);
 
             roomBookingServiceMock.Verify(rbs => rbs.Save(It.IsAny<RoomBooking>()), Times.Never);
+        }
+
+        // Data driven tests
+        [Theory]
+        [InlineData(BookingResultFlag.Failure, false)]
+        [InlineData(BookingResultFlag.Success, true)]
+        public void Should_Return_SuccessOrFailure_Flag_In_Result(BookingResultFlag bookingSuccessFlag, bool isAvailable)
+        {
+            if(!isAvailable)
+            {
+                availableRooms.Clear();
+            }
+
+            var result = processor.BookRoom(request);
+
+            bookingSuccessFlag.ShouldBe(result.Flag); 
         }
     }
 }
