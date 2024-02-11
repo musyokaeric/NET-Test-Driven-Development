@@ -47,7 +47,7 @@ namespace RoomBookingApp.Persistence.Tests
 
         [Fact]
         public void Should_Save_Room_Booking()
-        {
+        {    
             dbOptions = new DbContextOptionsBuilder<RoomBookingAppDbContext>().UseInMemoryDatabase("ShouldSaveTest").Options;
 
             var roomBooking = new RoomBooking { RoomId = 1, Date = new DateTime(2021, 06, 09), Email = "firstCustomer@gmail.com", FullName = "First Customer" };
